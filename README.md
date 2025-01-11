@@ -2,13 +2,21 @@
 The IPL Dashboard is a comprehensive visualization tool designed to analyze and present insights into the Indian Premier League (IPL), one of the most popular professional cricket leagues in the world. The dashboard provides in-depth analyses of team performances, player statistics, and match trends using Power BI.
 
 # Table of Contents
+
 > About the IPL
+
 > Features
+
 > Data Source
+
 > Technologies Used
+
 > How to Use
+
 > Key Insights
+
 > Future Enhancements
+
 # About the IPL
 The Indian Premier League (IPL), launched in 2008 by the Board of Control for Cricket in India (BCCI), is known for merging entertainment with cricket. It attracts top cricketing talent worldwide and features franchise-based teams representing various Indian cities.
 
