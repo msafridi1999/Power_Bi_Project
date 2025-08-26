@@ -76,9 +76,35 @@ The data used for this dashboard is sourced from IPL matches and player statisti
 
 > Venues and umpires.
 
-## DAX (Measure)
+## DAX (Measure) for (IPL Overview page)
 ### 1) Rank of stadium(measure)
 Rank of stadium = IF(RANKX(ALL(all_season_summary[venue_name]),CALCULATE(COUNT(all_season_summary[venue_name])))<11,CALCULATE(COUNT(all_season_summary[venue_name])), BLANK())
+
+### 2) % of wide balls(measure)
+% of wide balls = 
+var totalwideballs = CALCULATE(SUM(all_season_bowling_card[wides]))
+var totalballs = CALCULATE(SUM(all_season_bowling_card[total balls]))
+return(
+    DIVIDE(totalwideballs,totalballs)*100)
+
+### 3) Average(measure)
+Average = 
+var sum1 = CALCULATE(SUM(all_season_summary[first_inning_cleaned]))
+var sum2 = CALCULATE(SUM(all_season_summary[second_inning_cleaned]))
+var tot = CALCULATE(COUNT(all_season_summary[id]))
+
+return(
+    (sum1+sum2)/(tot*2))
+
+### 4) Rank of umpire(measure)
+Rank of umpire = IF(RANKX(ALL(all_season_summary[tv_umpire]),CALCULATE(COUNT(all_season_summary[tv_umpire])))<11,CALCULATE(COUNT(all_season_summary[tv_umpire])),BLANK())
+
+### 5) Season Table (measure)
+   1) Q_T_1 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 1,points_table[season]=SELECTEDVALUE(points_table[season]))
+   2) Q_T_2 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 2,points_table[season]=SELECTEDVALUE(points_table[season]))
+   3) Q_T_3 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 3,points_table[season]=SELECTEDVALUE(points_table[season]))
+   4) Q_T_4 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 4,points_table[season]=SELECTEDVALUE(points_table[season]))
+
 
 # Project Structure
 
