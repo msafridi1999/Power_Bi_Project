@@ -2,21 +2,6 @@
 
 The IPL Dashboard is a comprehensive visualization tool designed to analyze and present insights into the Indian Premier League (IPL), one of the most popular professional cricket leagues in the world. The dashboard provides in-depth analyses of team performances, player statistics, and match trends using Power BI.
 
-# Table of Contents
-
-> About the IPL
-
-> Features
-
-> Data Source
-
-> Technologies Used
-
-> How to Use
-
-> Key Insights
-
-> Future Enhancements
 
 # About the IPL
 
@@ -37,33 +22,43 @@ The IPL Dashboard includes the following components:
 
 # IPL Overview
 
-> Total matches, teams, and seasons.
+KPIs: Total Seasons, Teams Participated, Total Matches Played
 
-> Average runs per match across seasons.
+## Charts:
 
-> Venue rankings based on matches hosted and winning percentages.
+    > Rank of stadiums by venue
 
+    > No‑balls & % wides by season
+
+    > Average runs per match (season‑wise)
+
+    > Final four / qualifiers table (Q_T_1 to Q_T_4)
+    
 # Team Profile
 
-> Performance metrics for each team:
+> Team selector (buttons/slicers for CSK, MI, RCB, SRH, etc.)
 
-> Matches played, won, and lost.
+Tables:
 
-> Net Run Rate (NRR) season-wise.
+    > Venues with total matches & win% at each ground
 
-> Venue-based performance analysis.
+    > Season summary: matches played, won, lost, NRR, no‑result
+
+> Top Performers: Top 5 run scorers & wicket takers (team filtered)
+
+> Interactive chart: Runs / Wickets / Boundaries by over, with over‑range and season sliders
+
+> Year filter card 
 
 # Player Profile
 
-> Top 5 players by:
+> Slicers: Bowler, Batter, Season
 
-> Runs scored.
+> Head‑to‑head table: Balls, Runs, Wickets, Boundaries, Strike Rate (batter) & Economy (bowler)
 
-> Wickets taken.
+> Leaderboards: Top 5 bowlers, batsmen, and hitters
 
-> Boundaries hit.
-
-> Player performance metrics like strike rates, economy rates, and boundary counts.
+> Trends: Total boundaries by season; run distribution (1/2/3/4/6) pie
 
 # Dynamic Filters
 
@@ -81,11 +76,16 @@ The data used for this dashboard is sourced from IPL matches and player statisti
 
 > Venues and umpires.
 
-# Technologies Used
+# Project Structure
 
-> Power BI Desktop: For data visualization and report generation.
-
-> Data Transformation Tools: To clean and preprocess the dataset for effective visualization.
+│ ├── IPL-Overview.png
+│ ├── Team-Profile.png
+│ ├── Player-Profile.png
+│ └── Player-Extras.png
+├── data/ # (optional) raw/clean data files or sample CSVs
+├── docs/ # (optional) notes, DAX snippets, wireframes
+├── IPL_Dashboard.pbix # Power BI report
+└── README.md
 
 # How to Use
 
@@ -122,4 +122,19 @@ The data used for this dashboard is sourced from IPL matches and player statisti
 # Contributions
 
 Feel free to suggest improvements, raise issues, or contribute to this project by submitting pull requests.
+
+Acknowledgements
+
+Inspiration from the cricket analytics community
+
+Thanks to data providers and open‑source contributors
+
+📫 Contact
+
+Md Shahid Afridi
+Email: mdshahidafridi9060@gmail.com
+
+🏷️ Tags
+
+Power BI · Data Visualization · Cricket Analytics · IPL · Sports Analytics
 
