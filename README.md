@@ -123,18 +123,18 @@ The data used for this dashboard is sourced from IPL matches and player statisti
 
 Feel free to suggest improvements, raise issues, or contribute to this project by submitting pull requests.
 
-Acknowledgements
+# Acknowledgements
 
 Inspiration from the cricket analytics community
 
 Thanks to data providers and open‑source contributors
 
-📫 Contact
+ # Contact
 
 Md Shahid Afridi
 Email: mdshahidafridi9060@gmail.com
 
-🏷️ Tags
+# Tags
 
 Power BI · Data Visualization · Cricket Analytics · IPL · Sports Analytics
 
