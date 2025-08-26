@@ -76,6 +76,10 @@ The data used for this dashboard is sourced from IPL matches and player statisti
 
 > Venues and umpires.
 
+# DAX (Measure)
+## 1. Rank of stadium =
+IF(RANKX(ALL(all_season_summary[venue_name]),CALCULATE(COUNT(all_season_summary[venue_name])))<11,CALCULATE(COUNT(all_season_summary[venue_name])), BLANK())
+
 # Project Structure
 
 │ ├── IPL-Overview.png
