@@ -166,18 +166,21 @@ The data used for this dashboard is sourced from IPL matches and player statisti
       2) Player Profile Boundary = CALCULATE(SUM(all_season_details[Boundary]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
 
       3) Player Profile Economy = 
-var ballsss = CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]= SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+        var ballsss = CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]=
+        SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]= SELECTEDVALUE(all_season_details[batsman1_name]), all_season_details[season]=
+        SELECTEDVALUE(all_season_details[season]))
 
-var runsss = CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+        var runsss=
+        CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),
+        all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+        return((runsss)/(ballsss/6))
+     
+       4) Player Profile Runs = CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=
+          SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=
+          SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
 
-return((runsss)/(ballsss/6))
-
-    4) Player Profile Runs = CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=
-    SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=
-    SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
-
-    5) Player Profile Strike Rate = 
-       var balls = CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]=SELECTEDVALUE
+      5) Player Profile Strike Rate = 
+        var balls = CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]=SELECTEDVALUE
           (all_season_details[bowler1_name]),all_season_details[batsman1_name]=
           SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
 
@@ -185,25 +188,25 @@ return((runsss)/(ballsss/6))
               SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
               return((runs/balls)*100)
 
-    6) Player Profile Wickets = CALCULATE(SUM(all_season_details[wickets]),all_season_details[bowler1_name]=
-    SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=
-    SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+      6) Player Profile Wickets = CALCULATE(SUM(all_season_details[wickets]),all_season_details[bowler1_name]=
+         SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=
+         SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
 
 ### 2) Top 5 Bowlers
-Top 5 bowlers = IF(RANKX(ALL(all_season_details[bowler1_name]),[Wickets_Player_Profile])<=5 ,[Wickets_Player_Profile],BLANK())
+           Top 5 bowlers = IF(RANKX(ALL(all_season_details[bowler1_name]),[Wickets_Player_Profile])<=5 ,[Wickets_Player_Profile],BLANK())
 
 ### 3) Top 5 batsman
-Top 5 batsman = IF(RANKX(ALL(all_season_details[batsman1_name]),[Runs Player Profile])<=5,[Runs Player Profile],BLANK())
+           Top 5 batsman = IF(RANKX(ALL(all_season_details[batsman1_name]),[Runs Player Profile])<=5,[Runs Player Profile],BLANK())
 
 ### 4) Top 5 hitters
-Top 5 hitters = IF( RANKX(ALL(all_season_details[batsman1_name]),[Boundary Player Profile])<=5,[Boundary Player Profile],BLANK())
+           Top 5 hitters = IF( RANKX(ALL(all_season_details[batsman1_name]),[Boundary Player Profile])<=5,[Boundary Player Profile],BLANK())
 
 ### 5) total boundary(measure of Tooltip)
-total boundary = 
-var hometeam = CALCULATE(SUM(all_season_summary[home_boundaries]))
-var awayteam = CALCULATE(SUM(all_season_summary[away_boundaries]))
+       total boundary = 
+             var hometeam = CALCULATE(SUM(all_season_summary[home_boundaries]))
+             var awayteam = CALCULATE(SUM(all_season_summary[away_boundaries]))
 
-return(hometeam+awayteam)
+        return(hometeam+awayteam)
 
 # Project Structure
 
