@@ -78,72 +78,76 @@ The data used for this dashboard is sourced from IPL matches and player statisti
 
 ## DAX (Measure) for (IPL Overview page)
 ### 1) Rank of stadium(measure)
-Rank of stadium = IF(RANKX(ALL(all_season_summary[venue_name]),CALCULATE(COUNT(all_season_summary[venue_name])))<11,CALCULATE(COUNT(all_season_summary[venue_name])), BLANK())
+             Rank of stadium = IF(RANKX(ALL(all_season_summary[venue_name]),CALCULATE(COUNT(all_season_summary[venue_name])))<11,
+             CALCULATE(COUNT(all_season_summary[venue_name])), BLANK())
 
 ### 2) % of wide balls(measure)
-% of wide balls = 
-var totalwideballs = CALCULATE(SUM(all_season_bowling_card[wides]))
-var totalballs = CALCULATE(SUM(all_season_bowling_card[total balls]))
-return(
-    DIVIDE(totalwideballs,totalballs)*100)
+           % of wide balls = var totalwideballs = CALCULATE(SUM(all_season_bowling_card[wides]))
+           var totalballs = CALCULATE(SUM(all_season_bowling_card[total balls]))
+           return(
+                DIVIDE(totalwideballs,totalballs)*100)
 
 ### 3) Average(measure)
-Average = 
-var sum1 = CALCULATE(SUM(all_season_summary[first_inning_cleaned]))
-var sum2 = CALCULATE(SUM(all_season_summary[second_inning_cleaned]))
-var tot = CALCULATE(COUNT(all_season_summary[id]))
+          Average = var sum1 = CALCULATE(SUM(all_season_summary[first_inning_cleaned]))
+          var sum2 = CALCULATE(SUM(all_season_summary[second_inning_cleaned]))
+          var tot = CALCULATE(COUNT(all_season_summary[id]))
 
-return(
-    (sum1+sum2)/(tot*2))
+         return(
+               (sum1+sum2)/(tot*2))
 
 ### 4) Rank of umpire(measure)
-Rank of umpire = IF(RANKX(ALL(all_season_summary[tv_umpire]),CALCULATE(COUNT(all_season_summary[tv_umpire])))<11,CALCULATE(COUNT(all_season_summary[tv_umpire])),BLANK())
+            Rank of umpire = IF(RANKX(ALL(all_season_summary[tv_umpire]),CALCULATE(COUNT(all_season_summary[tv_umpire])))<11,
+            CALCULATE(COUNT(all_season_summary[tv_umpire])),BLANK())
 
 ### 5) Season Table (measure)
-   1) Q_T_1 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 1,points_table[season]=SELECTEDVALUE(points_table[season]))
-   2) Q_T_2 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 2,points_table[season]=SELECTEDVALUE(points_table[season]))
-   3) Q_T_3 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 3,points_table[season]=SELECTEDVALUE(points_table[season]))
-   4) Q_T_4 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 4,points_table[season]=SELECTEDVALUE(points_table[season]))
+              1) Q_T_1 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 1,points_table[season]=SELECTEDVALUE(points_table[season]))
+              2) Q_T_2 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 2,points_table[season]=SELECTEDVALUE(points_table[season]))
+              3) Q_T_3 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 3,points_table[season]=SELECTEDVALUE(points_table[season]))
+              4) Q_T_4 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 4,points_table[season]=SELECTEDVALUE(points_table[season]))
 
 ## DAX (Measure) for (Team Profile page)
 ### 1) Total count of venue(measure)
-Total count of venue = CALCULATE(COUNT(all_season_summary[venue_name]),
-                                 FILTER(all_season_summary,all_season_summary[home_team]= SELECTEDVALUE(points_table[short_name])||all_season_summary[away_team] = SELECTEDVALUE(points_table[short_name])))  
+                 Total count of venue = CALCULATE(COUNT(all_season_summary[venue_name]),
+                                        FILTER(all_season_summary,all_season_summary[home_team]= SELECTEDVALUE(points_table[short_name])||
+                                        all_season_summary[away_team] = SELECTEDVALUE(points_table[short_name])))  
                                  
 ### 2) Winning % per ground
-Winning % per ground = ([Winning Ground]/[Total count of venue])*100
+                Winning % per ground = ([Winning Ground]/[Total count of venue])*100
 
 ### 3) Winning Ground
-Winning Ground = CALCULATE(COUNT(all_season_summary[venue_name]),
-                                 FILTER(
-                                      FILTER(all_season_summary,all_season_summary[home_team]= SELECTEDVALUE(points_table[short_name])||all_season_summary[away_team] = SELECTEDVALUE(points_table[short_name])),all_season_summary[winner]=SELECTEDVALUE(points_table[short_name])))    
+                   Winning Ground = CALCULATE(COUNT(all_season_summary[venue_name]),
+                                            FILTER(
+                                                   FILTER(all_season_summary,all_season_summary[home_team]=     
+                                                SELECTEDVALUE(points_table[short_name])||all_season_summary[away_team]SELECTEDVALUE(points_table[short_name])),
+                                                all_season_summary[winner]=SELECTEDVALUE(points_table[short_name])))    
 
 ### 4) Top 5 Run Score(measure)
-Rank of batsman = IF(RANKX(ALL(all_season_batting_card[fullName]),[Player_runs])<=5, [Player_runs], BLANK())
+                     Rank of batsman = IF(RANKX(ALL(all_season_batting_card[fullName]),[Player_runs])<=5, [Player_runs], BLANK())
 
 ### 5) Top 5 Wicket Takers(measure)
-Rank of bowlers = IF(RANKX(ALL(all_season_bowling_card[fullName]), [Bowlers Wickets])<=5, [Bowlers Wickets],BLANK())
+                    Rank of bowlers = IF(RANKX(ALL(all_season_bowling_card[fullName]), [Bowlers Wickets])<=5, [Bowlers Wickets],BLANK())
 
 ### 6) Dynamic(measure)
-Dynamic = 
-var low = MIN(selected_over_range[selected_over_range])
-var upp = MAX(selected_over_range[selected_over_range])
-var selected = SELECTEDVALUE(Selected_Field[Selected_Field Order])
-var selected_l = MIN(Season[Season])
-var selected_u = MAX(Season[Season])
-return(
-       IF(selected=0,
-            CALCULATE(SUM('Team Profile'[Boundary]),
-                FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]<=selected_u)),
-    
+        Dynamic = 
+        var low = MIN(selected_over_range[selected_over_range])
+        var upp = MAX(selected_over_range[selected_over_range])
+        var selected = SELECTEDVALUE(Selected_Field[Selected_Field Order])
+        var selected_l = MIN(Season[Season])
+        var selected_u = MAX(Season[Season])
+        return(
+              IF(selected=0,
+                     CALCULATE(SUM('Team Profile'[Boundary]),
+                              FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]
+              <=selected_u)),
+              
        IF(selected=1,
             CALCULATE(SUM('Team Profile'[Runs]),
                 FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]<=selected_u)),
 
          IF(selected=2,
             CALCULATE(SUM('Team Profile'[Wickets]),
-                FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]     <=selected_u))))))
-
+                FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]     
+                <=selected_u))))))
 ### 7) Selected_Field
      1) Selected_Field = {
     ("Boundary", NAMEOF('Team Profile'[Boundary]), 0),
