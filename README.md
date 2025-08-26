@@ -105,6 +105,95 @@ Rank of umpire = IF(RANKX(ALL(all_season_summary[tv_umpire]),CALCULATE(COUNT(all
    3) Q_T_3 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 3,points_table[season]=SELECTEDVALUE(points_table[season]))
    4) Q_T_4 = CALCULATE(VALUES(points_table[name]),points_table[rank]= 4,points_table[season]=SELECTEDVALUE(points_table[season]))
 
+## DAX (Measure) for (Team Profile page)
+### 1) Total count of venue(measure)
+Total count of venue = CALCULATE(COUNT(all_season_summary[venue_name]),
+                                 FILTER(all_season_summary,all_season_summary[home_team]= SELECTEDVALUE(points_table[short_name])||all_season_summary[away_team] = SELECTEDVALUE(points_table[short_name])))  
+                                 
+### 2) Winning % per ground
+Winning % per ground = ([Winning Ground]/[Total count of venue])*100
+
+### 3) Winning Ground
+Winning Ground = CALCULATE(COUNT(all_season_summary[venue_name]),
+                                 FILTER(
+                                      FILTER(all_season_summary,all_season_summary[home_team]= SELECTEDVALUE(points_table[short_name])||all_season_summary[away_team] = SELECTEDVALUE(points_table[short_name])),all_season_summary[winner]=SELECTEDVALUE(points_table[short_name])))    
+
+### 4) Top 5 Run Score(measure)
+Rank of batsman = IF(RANKX(ALL(all_season_batting_card[fullName]),[Player_runs])<=5, [Player_runs], BLANK())
+
+### 5) Top 5 Wicket Takers(measure)
+Rank of bowlers = IF(RANKX(ALL(all_season_bowling_card[fullName]), [Bowlers Wickets])<=5, [Bowlers Wickets],BLANK())
+
+### 6) Dynamic(measure)
+Dynamic = 
+var low = MIN(selected_over_range[selected_over_range])
+var upp = MAX(selected_over_range[selected_over_range])
+var selected = SELECTEDVALUE(Selected_Field[Selected_Field Order])
+var selected_l = MIN(Season[Season])
+var selected_u = MAX(Season[Season])
+return(
+       IF(selected=0,
+            CALCULATE(SUM('Team Profile'[Boundary]),
+                FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]<=selected_u)),
+    
+       IF(selected=1,
+            CALCULATE(SUM('Team Profile'[Runs]),
+                FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]<=selected_u)),
+
+         IF(selected=2,
+            CALCULATE(SUM('Team Profile'[Wickets]),
+                FILTER('Team Profile','Team Profile'[over]>=low && 'Team Profile'[over]<=upp && 'Team Profile'[season]>=selected_l && 'Team Profile'[season]<=selected_u))))))
+
+### 7) Selected_Field
+     1) Selected_Field = {
+    ("Boundary", NAMEOF('Team Profile'[Boundary]), 0),
+    ("over", NAMEOF('Team Profile'[over]), 1),
+    ("Runs", NAMEOF('Team Profile'[Runs]), 2)
+}
+
+    2) selected_over_range = GENERATESERIES(1, 20, 1)
+
+    3)Season = GENERATESERIES(2008, 2024, 1)
+
+## DAX (Measure) for (Player Profile page)
+### 1) Player Profile (measure)
+     1) Player Profile balls =     CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+      2) Player Profile Boundary = CALCULATE(SUM(all_season_details[Boundary]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+      3) Player Profile Economy = 
+var ballsss = CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]= SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+var runsss = CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+return((runsss)/(ballsss/6))
+
+    4) Player Profile Runs = CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+    5) Player Profile Strike Rate = 
+var balls = CALCULATE(SUM(all_season_details[Balls]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+var runs = CALCULATE(SUM(all_season_details[runs]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+return((runs/balls)*100)
+
+    6) Player Profile Wickets = CALCULATE(SUM(all_season_details[wickets]),all_season_details[bowler1_name]=SELECTEDVALUE(all_season_details[bowler1_name]),all_season_details[batsman1_name]=SELECTEDVALUE(all_season_details[batsman1_name]),all_season_details[season]=SELECTEDVALUE(all_season_details[season]))
+
+### 2) Top 5 Bowlers
+Top 5 bowlers = IF(RANKX(ALL(all_season_details[bowler1_name]),[Wickets_Player_Profile])<=5 ,[Wickets_Player_Profile],BLANK())
+
+### 3) Top 5 batsman
+Top 5 batsman = IF(RANKX(ALL(all_season_details[batsman1_name]),[Runs Player Profile])<=5,[Runs Player Profile],BLANK())
+
+### 4) Top 5 hitters
+Top 5 hitters = IF( RANKX(ALL(all_season_details[batsman1_name]),[Boundary Player Profile])<=5,[Boundary Player Profile],BLANK())
+
+### 5) total boundary(measure of Tooltip)
+total boundary = 
+var hometeam = CALCULATE(SUM(all_season_summary[home_boundaries]))
+var awayteam = CALCULATE(SUM(all_season_summary[away_boundaries]))
+
+return(hometeam+awayteam)
 
 # Project Structure
 
